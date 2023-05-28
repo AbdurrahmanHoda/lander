@@ -94,15 +94,17 @@ function updateShip() {
   ship.dy += gravity;
   if(ship.mainEngine){
     ship.dy -= mainEngineThrust;
-   } 
-  ship.y += ship.dy;
-  ship.x += ship.dy
-
+  } 
   if(ship.leftEngine){
     ship.dx += sideEngineThrust;
   }
-  ship.y +=
-   } 
+  if(ship.rightEngine){
+    ship.dx -= sideEngineThrust;
+  }
+
+  ship.y += ship.dx;
+  ship.x += ship.dx;
+} 
   // TODO: update ship.dx, dy
   // what forces acting on the ship?
   // - left, right, main thruster

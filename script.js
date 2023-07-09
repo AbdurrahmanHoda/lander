@@ -51,6 +51,8 @@ class Rect {
 // Projectiles list
 const prjs = [];
 
+const terrain = [];
+
 const ship = new Rect(0, 0, 8, 22);
 ship.color = "black";
 ship.dx = 0;
@@ -64,10 +66,31 @@ ship.landed = false;
 const platform = new Rect(190, 345, 20, 5);
 platform.color = "blue";
 
+terrain.push([0, 310]);
+terrain.push([100, 240]);
+terrain.push([platform.left, platform.bottom]);
+terrain.push([platform.right, platform.bottom]);
+terrain.push([300, 250]);
+terrain.push([350, 350]);
+terrain.push([400, 300]);
+
 function drawPlatform() {
   ctx.fillStyle = platform.color;
   ctx.fillRect(platform.x, platform.y, platform.w, platform.h);
 }
+
+function drawTerrain(){
+  ctx.beginPath;
+  ctx.moveTo(0, 400);
+  for (let i = 0; i < terrain.length; i++){
+    ctx.lineTo(terrain[i][0], terrain[i][1]);
+  }
+  ctx.lineTo(400, 400);
+  ctx.closePath();
+  ctx.fillStyle = 'gray';
+  ctx.fill();
+}
+
 
 function initShip() {
   // position
@@ -108,17 +131,19 @@ function drawTriangle(a, b, c, fillStyle) {
   ctx.moveTo(a[0], a[1]);
   ctx.lineTo(b[0], b[1]);
   ctx.lineTo(c[0], c[1]);
-  ctx.closePath();
+
   ctx.fillStyle = fillStyle;
   ctx.fill();
 }
+
+  
 
 function drawShip() {
   ctx.save();
   ctx.beginPath();
   ctx.translate(ship.center.x, ship.center.y);
   ctx.rect(ship.w * -0.5, ship.h * -0.5, ship.w, ship.h);
-  ctx.fillStyle = ship.color;
+  ctx.fillStyle = 'black';
   ctx.fill();
   ctx.closePath();
 
@@ -232,6 +257,7 @@ function gameLoop() {
     drawPrjs();
     drawShip();
     drawPlatform();
+    drawTerrain();
     requestAnimationFrame(gameLoop);
   }
 }

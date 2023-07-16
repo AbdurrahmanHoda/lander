@@ -74,6 +74,11 @@ terrain.push([300, 250]);
 terrain.push([350, 350]);
 terrain.push([400, 300]);
 
+
+function distance(a ,b){
+  return Math.hypot(a[0] - b[0], a[1]- b[1])
+}
+
 function drawPlatform() {
   ctx.fillStyle = platform.color;
   ctx.fillRect(platform.x, platform.y, platform.w, platform.h);
@@ -220,6 +225,34 @@ function checkCollision() {
   // check that ship hit a projectile
   for (let i = 0; i < prjs.length; i++) {
     if (ship.overlaps(prjs[i])) {
+      ship.crashed = true;
+      return;
+    }
+  }
+
+
+  for(let i = 0; i < terrain.length - 1; i++ ) {
+    const a = terrain[i];
+    const b = terrain[i + 1];
+    const l = [ship.left, ship.bottom ];
+    const r = [ship.right, ship.bottom];
+
+    const abLen = distance(a, b)
+    const alLen = distance(a, l)
+    const arLen = distance(a, r)
+    const lbLen = distance(l, b)
+    const rbLen = distance(r, b)
+
+    const fudge = 0.1
+
+    if (abLen + fudge > alLen + lbLen) {
+      console.log("left corner crashed")
+      ship.crashed = true;
+      return;
+    }
+
+    if(abLen + fudge > arLen + rbLen) {
+      console.log("right corner crased")
       ship.crashed = true;
       return;
     }
